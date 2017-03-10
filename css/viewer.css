@@ -53,8 +53,12 @@ html, body, .fullscreen {
   width: 100%;
 }
 
-.vertical-align {
-  height: 100%;
+#pdf {
   display: flex;
+  flex-grow: 1;
+}
+.vertical-align {
+  display: flex;
+  flex-grow: 1;
   align-items: center;
 }

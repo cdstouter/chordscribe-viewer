@@ -68,6 +68,9 @@ module.exports = function(grunt) {
       }
     },
     autoprefixer: {
+      options: {
+        browsers: ['ie 11', 'Safari >= 6']
+      },
       css: {
         files: {
           'dist/css/viewer.css': 'css/viewer.css',
