@@ -1,0 +1,60 @@
+html, body, .fullscreen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.fullscreen>* {
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+#main-content {
+  flex: 1 1 auto;
+}
+
+#sidebar,
+#pdf {
+  overflow: auto;
+}
+
+#sidebar {
+  padding-right: .375rem;
+}
+
+#pdf {
+  padding-left: .375rem;
+}
+
+#sidebar>.card:not(:last-child),
+#pdf-container>.card:not(:last-child) {
+  margin-bottom: .75rem;
+}
+
+.footer {
+  padding: 1rem;
+}
+
+.level.num-entry>.level-item {
+  flex-grow: 0;
+}
+
+.level.num-entry>.level-item.spacer {
+  flex-grow: 1;
+}
+
+.level.num-entry>.level-item.num {
+  min-width: 3rem;
+}
+
+#loading-indicator {
+  text-align: center;
+  width: 100%;
+}
+
+.vertical-align {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}

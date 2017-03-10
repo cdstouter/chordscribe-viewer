@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <!-- Bulma -->
+    <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Our own stylesheet -->
+    <link rel="stylesheet" media="screen" href="css/viewer.css">
+    <!-- Our print stylesheet -->
+    <link rel="stylesheet" media="print" href="css/print.css">
+    
+    <title data-bind="text: pageTitle"></title>
+
+  </head>
+  <body>
+    
+    <div class="fullscreen">
+    
+    <div id="main-content" class="columns is-marginless">
+      <div id="sidebar" class="column is-3">
+
+        <!-- ko if: songInformation -->
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Song Information
+            </p>
+          </header>
+          <div class="card-content" data-bind="foreach: songInformation">
+            <p>
+              <span data-bind="text: label"></span>: <span data-bind="text: value"></span>
+            </p>
+          </div>
+        </div>
+        <!-- /ko -->
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Options
+            </p>
+          </header>
+          <div class="card-content">
+
+            <div class="level num-entry">
+              <div class="level-item">
+                <p>Transpose:</p>
+              </div>
+              <div class="level-item spacer"></div>
+              <div class="level-item">
+                <a class="button is-small" data-bind="click: transposeDown, css: {'is-disabled': !optionsEnabled()}">
+                  <span class="icon is-small">
+                    <i class="fa fa-minus"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="level-item num" data-bind="text: transposeDisplay">
+              </div>
+              <div class="level-item">
+                <a class="button is-small" data-bind="click: transposeUp, css: {'is-disabled': !optionsEnabled()}">
+                  <span class="icon is-small">
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <div class="level num-entry">
+              <div class="level-item">
+                Capo:
+              </div>
+              <div class="level-item spacer"></div>
+              <div class="level-item">
+                <a class="button is-small" data-bind="click: capoDown, css: {'is-disabled': !optionsEnabled()}">
+                  <span class="icon is-small">
+                    <i class="fa fa-minus"></i>
+                  </span>
+                </a>
+              </div>
+              <div class="level-item num" data-bind="text: capo">
+              </div>
+              <div class="level-item">
+                <a class="button is-small" data-bind="click: capoUp, css: {'is-disabled': !optionsEnabled()}">
+                  <span class="icon is-small">
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            <p class="control">
+              <label class="checkbox" data-bind="css: {'is-disabled': !optionsEnabled()}">
+                <input type="checkbox" data-bind="checked: useFlats, enable: optionsEnabled">
+                Use flats when transposing
+              </label>
+            </p>
+
+          </div>
+          <footer class="card-footer">
+            <a class="card-footer-item" data-bind="click: print, css: {'is-disabled': !optionsEnabled()}">Print</a>
+            <a class="card-footer-item" data-bind="click: download, css: {'is-disabled': !optionsEnabled()}">Download</a>
+          </footer>
+        </div>
+        
+      </div>
+      <div id="pdf" class="column is-9">
+        
+        <!-- ko if: viewerState() == 'loading' || viewerState() == 'building' -->
+        <div class="vertical-align">
+          <div id="loading-indicator">
+            <span class="icon is-large">
+              <i class="fa fa-cog fa-spin"></i>
+            </span>
+            <div data-bind="text: viewerMessage"></div>
+          </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: viewerState() == 'error' -->
+        <div class="vertical-align">
+          <div id="loading-indicator">
+            <span class="icon is-large">
+              <i class="fa fa-exclamation-triangle"></i>
+            </span>
+            <div data-bind="text: viewerMessage"></div>
+          </div>
+        </div>
+        <!-- /ko -->
+        <div id="pdf-container" data-bind="visible: viewerState() == 'ready'">
+        </div>
+        
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="has-text-centered">
+        &copy; 2017 by Caleb Stouter. Powered by <a href="#" target="_blank">ChordScribe</a>.
+      </div>
+    </footer>
+    
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- The song data that our code is using -->
+    <script>
+      var chordSheet = {
+        "fontSize": 14,
+        "metadata": {
+          "title": "Breathe On Me",
+          "author": "Caleb Stouter",
+          "key": "Key of [G]",
+          "copyrightText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        },
+        "fontFiles": {
+          "regular": "../fonts/OpenSans/OpenSans-Regular.ttf",
+          "bold": "../fonts/OpenSans/OpenSans-Bold.ttf"
+        },
+        "markup": "[instruct]Intro:   [G]   [C]   [G]   [C]\n\n[instruct]Verse 1:\n[G]   Breathe on me, [C]   breath of God\n[G]   Fill me with [C]   a life that's new\n[G]   So I can love [C]   the way that You love\n[G]   And do what You’ve [D]called me to do\n[instruct](Repeat verse 1)\n\n\n#***\n[instruct]Chorus:\n[G]   I am a[C]live in [D]You\n[G]   With the Spirit in[C]side I’ve [Em]been made [D]new\n[Am]   So breathe on me, [G/B]   make me new\n[C]   There’s no life [Em]   like I’ve found in You\n[C]   Breathe on me [D]   and make me new\n#*\n\n\n[instruct](Intro chords)\n\n[instruct]Verse 2:\n[G]   Breathe on me, [C]   breath of God\n[G]   Take my eyes [C]   and make them see\n[G]   And I will live [C]   in Your light\n[G]   For now and e[D]ternity\n\n\n[instruct](Chorus) (Intro chords)\n\n\n[instruct]Verse 3:\n[G]   Breathe on me, [C]   breath of God\n[G]   Take my feet [C]   and make them sure\n[G]   Until my path [C]   is one with Yours\n[G]   And give me the [D]strength to endure\n\n\n#***\n[instruct]Chorus 2:\n[G]   I am a[C]live in [D]You\n[G]   With the Spirit in[C]side I’ve [Em]been made [D]new\n[Am]   So breathe on me, [G/B]   make me new\n[C]   There’s no life [Em]   like I’ve found in You\n[Am]   So breathe on me, [G/B]   make me new\n[C]   There’s no life [Em]   like I’ve found in You\n[C]   Breathe on me [D]   and make me new\n#*\n\n\n[instruct](Intro chords)"
+      };
+    </script>
+    <!-- PDF.js -->
+    <script src="js/pdf.min.js"></script>
+    <!-- Our code bundle -->
+    <script src="js/viewer.js"></script>
+
+  </body>
+</html>

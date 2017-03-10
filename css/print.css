@@ -1,0 +1,29 @@
+@page {
+  margin: 0;
+}
+
+html,
+body,
+div {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#sidebar,
+footer {
+  display: none;
+}
+
+.pageContainer {
+  overflow: hidden;
+}
+
+.pageContainer:not(:last-child) {
+  page-break-inside: avoid;
+  page-break-after: always;
+}
+
+.pageContainer>* {
+  height: auto !important;
+}
