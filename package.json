@@ -23,10 +23,14 @@
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^2.2.0"
+    "grunt-contrib-uglify": "^2.2.0",
+    "http-server": "^0.9.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/cdstouter/chordscribe-viewer.git"
+  },
+  "scripts": {
+    "start": "http-server dist/"
   }
 }
