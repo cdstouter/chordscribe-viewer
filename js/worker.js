@@ -12,6 +12,11 @@ onmessage = function(msg) {
 };
 
 function load(msg) {
+  console.log(msg);
+  msg.data.fontFiles = {
+    'regular': '../fonts/OpenSans/OpenSans-Regular.ttf',
+    'bold': '../fonts/OpenSans/OpenSans-Bold.ttf'
+  };
   fontsLoaded = false;
   doc = null;
   if (!msg.data) {
@@ -21,9 +26,9 @@ function load(msg) {
   }
   doc = new Layout(msg.data);
   doc.loadDefaultDecorations();
-  //doc.loadDecoration('openskiesheader', require('./osp/openskiesheader.js'));
-  //doc.loadDecoration('openskiesfooter', require('./osp/openskiesfooter.js'));
-  doc.loadFonts(function(err) {
+  doc.loadDecoration('openskiesheader', require('/home/caleb/osp-svn/decorations/openskiesheader.js'));
+  doc.loadDecoration('openskiesfooter', require('/home/caleb/osp-svn/decorations/openskiesfooter.js'));
+  doc.loadFontsBrowser(function(err) {
     if (err) {
       msg.success = false;
       msg.error = err;

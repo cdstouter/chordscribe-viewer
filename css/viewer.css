@@ -53,6 +53,7 @@ html, body, .fullscreen {
   width: 100%;
 }
 
+/*#pdf-container,*/
 #pdf {
   display: flex;
   flex-grow: 1;

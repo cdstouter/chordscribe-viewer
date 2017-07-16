@@ -176,7 +176,7 @@ function init() {
   // print button
   viewModel.print = function() {
     if (currentBlob) {
-      window.print();
+      //window.print();
     }
   };
   // download button
@@ -192,6 +192,6 @@ function init() {
 $(document).ready(function() {
   init();
   ko.applyBindings(viewModel, $('html')[0]);
+  
   loadResources();
-  //doBuild();
 });

@@ -10,10 +10,10 @@
   "license": "MIT",
   "dependencies": {
     "chordscribe-engine": "file:../chordscribe-engine",
-    "es6-promise": "^4.1.0",
+    "es6-promise": "^4.1.1",
     "file-saver": "^1.3.3",
-    "knockout": "^3.4.1",
-    "pdfjs-dist": "^1.7.348",
+    "knockout": "^3.4.2",
+    "pdfjs-dist": "^1.8.555",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -21,10 +21,10 @@
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-browserify": "^5.0.0",
-    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^2.2.0",
-    "http-server": "^0.9.0"
+    "grunt-contrib-uglify": "^3.0.1",
+    "http-server": "^0.10.0"
   },
   "repository": {
     "type": "git",
