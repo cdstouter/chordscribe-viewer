@@ -9,7 +9,7 @@
   "author": "Caleb Stouter",
   "license": "MIT",
   "dependencies": {
-    "chordscribe-engine": "file:../chordscribe-engine",
+    "chordscribe-engine": "^0.2.0",
     "es6-promise": "^4.1.1",
     "file-saver": "^1.3.3",
     "knockout": "^3.4.2",
