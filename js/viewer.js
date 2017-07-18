@@ -88,26 +88,35 @@ function renderPages(pdf) {
   var promise = Promise.resolve();
   var documentContainer = $('#pdf-container');
   documentContainer.empty();
-  var DEFAULT_SCALE = 1;
   for (var i = 1; i <= pdf.numPages; i++) {
     // Using promise to fetch and render the next page
     promise = promise.then(function (pageNum) {
       return pdf.getPage(pageNum).then(function (page) {
-        var viewport = page.getViewport(DEFAULT_SCALE);
+        var desiredWidth = documentContainer.width() * (window.devicePixelRatio || 1);
+        var originalViewport = page.getViewport(1);
+        var scale = desiredWidth / originalViewport.width;
+        var viewport = page.getViewport(scale);
 
         var container = document.createElement('div');
         container.id = 'pageContainer' + pageNum;
         container.className = 'pageContainer card';
         documentContainer.append(container);
 
-        return page.getOperatorList().then(function (opList) {
-          var svgGfx = new PDFJS.SVGGraphics(page.commonObjs, page.objs);
-          return svgGfx.getSVG(opList, viewport).then(function (svg) {
-            svg.style.width = '100%';
-            svg.style.height = 'auto';
-            container.appendChild(svg);
-          });
-        });
+        var canvas = document.createElement('canvas');
+        container.id = 'pageCanvas' + pageNum;
+        container.className = 'pageCanvas card';
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
+        var context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        container.append(canvas);
+        
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        page.render(renderContext);
       });
     }.bind(null, i));
   }
