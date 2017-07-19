@@ -148,6 +148,8 @@
 
     <!-- PDF.js -->
     <script src="js/pdf.min.js"></script>
+    <!-- Our code bundle -->
+    <script src="js/viewer.min.js"></script>
     <!-- The song data that our code is using -->
     <script>
       var chordscribeOptions = {
@@ -169,9 +171,11 @@
       };
       // set up the correct paths
       PDFJS.workerSrc = 'js/pdf.worker.min.js';
+      // start up the viewer when the DOM is ready
+      $(document).ready(function() {
+        chordscribeViewer(chordscribeOptions);
+      });
     </script>
-    <!-- Our code bundle -->
-    <script src="js/viewer.min.js"></script>
 
   </body>
 </html>
