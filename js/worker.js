@@ -1,7 +1,6 @@
 // this script assumes jQuery has already been loaded
 
 var Layout = require('chordscribe-engine');
-var _ = require('underscore');
 
 var doc = null;
 var fontsLoaded = false;
@@ -41,6 +40,16 @@ function load(msg) {
   });
 }
 
+function defaults(dest, source) {
+  for (var prop in source) {
+    var value = dest[prop];
+    if (value === undefined || !dest.hasOwnProperty(prop)) {
+      dest[prop] = source[prop];
+    }
+  }
+  return dest;
+}
+
 function build(msg) {
   if (!doc) {
     msg.success = false;
@@ -54,7 +63,7 @@ function build(msg) {
   }
   if (msg.data) {
     var data = doc.data;
-    data = _.defaults(msg.data, data);
+    data = defaults(msg.data, data);
     doc.data = data;
   }
   doc.layout();
