@@ -20,15 +20,14 @@ module.exports = function(grunt) {
         ]
       }
     },
-    /*
     uglify: {
       dist: {
         files: {
-          'dist/js/viewer.min.js': ['dist/js/viewer.js']
+          'dist/js/viewer.min.js': ['dist/js/viewer.js'],
+          'dist/js/worker.min.js': ['dist/js/worker.js']
         }
       }
     },
-    */
     copy: {
       fonts: {
         files: [
@@ -87,9 +86,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  //grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   
   // tasks
   grunt.registerTask('debug', ['clean', 'copy', 'autoprefixer', 'browserify']);
-  grunt.registerTask('default', ['debug'/*, 'uglify'*/]);
+  grunt.registerTask('default', ['debug', 'uglify']);
 };

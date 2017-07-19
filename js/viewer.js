@@ -1,5 +1,4 @@
 // this script assumes jQuery has already been loaded
-require('es6-promise').polyfill(); // Promise polyfill
 var ko = require('knockout');
 var FileSaver = require('file-saver');
 
@@ -17,7 +16,7 @@ function settingChanged() {
   rebuildTimeout = window.setTimeout(doBuild, 1000);
 }
 // we use a web worker to do the actual build so the UI isn't unresponsive
-var webWorker = new Worker('js/worker.js');
+var webWorker = new Worker('js/worker.min.js');
 webWorker.onmessage = function(e) {
   if (e.data.success) {
     if (e.data.action == 'load') {
