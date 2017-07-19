@@ -146,26 +146,30 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
-    <!-- The song data that our code is using -->
-    <script>
-      var chordSheet = {
-        "fontSize": 14,
-        "transpose": 0,
-        "flats": false,
-        "metadata": {
-          "title": "Joy To The World",
-          "author": "Open Skies Praise",
-          "key": "Key of [C], modulates to [D]",
-          "copyrightYear": 2017,
-          "copyrightNote": "Original words: Isaac Watts. Original music: George Frederick Handel; adapt. & arr. by Lowell Mason. Public Domain."
-        },
-        //"decorationsPath": "../../../../decorations/",
-        "decorations": ["openskiesheader", "openskiesfooter"],
-        "markup": "[instruct]Intro:   [C]\n\n\n[instruct]Verse 1:\n[C  ]Joy to the world, [F  ]the [C/G  ]Lord [G  ]is [C  ]come\n[C/E  ]Let [F  ]earth re[G  ]ceive her [C  ]King\nLet [F  ]every [C/E  ]heart pre[F  ]pare Him [C/E  ]room\nAnd [C  ]heaven and nature sing, and [G  ]heaven and nature sing\nAnd [Am  ]heaven [G/B  ]and [C  ]hea[F  ]ven and [C/G  ]na[G  ]ture s[(Intro)]ing\n\n\n[instruct]Verse 2:\n[C  ]Joy to the earth, [F  ]the [C/G  ]Sav[G  ]ior [C  ]reigns\n[C/E  ]Let [F  ]men their [G  ]songs em[C  ]ploy\nWhile [F  ]fields and [C/E  ]floods, rocks, [F  ]hills and [C/E  ]plains\nRe[C  ]peat the sounding joy, re[G  ]peat the sounding joy\nRe[Am  ]peat, [G/B  ]re[C   F  ]peat the [C/G  ]sound[G  ]ing joy\n[pagebreak]\n[instruct]Key change:   [C]               [G]   [A]   [Bm]   [A/C#]   [G]   [A]   [Bm]   [A/C#]\n\n\n[instruct]Verse 3:\n[D  ]He rules the world [G  ]with [D/A  ]truth [A  ]and [D  ]grace\n[D/F#  ]And [G  ]makes the [A  ]nations [D  ]prove\nThe [G  ]glories [D/F#  ]of His [G  ]righteous[D/F#  ]ness\nAnd [D  ]wonders of His love, and [A  ]wonders of His love\nAnd [Bm  ]won[A/C#  ]ders, [D   G  ]wonders [D/A  ]of [A  ]His [D  ]love\n\n\n[instruct]Ending:\nAnd [D  ]wonders of His love, and [A  ]wonders of His love\nAnd [Bm  ]won[A/C#  ]ders, [D   G  ]wonders [D/A  ]of [A  ]His [D  ]love"
-      };
-    </script>
     <!-- PDF.js -->
     <script src="js/pdf.min.js"></script>
+    <!-- The song data that our code is using -->
+    <script>
+      var chordscribeOptions = {
+        chordSheet: {
+          "fontSize": 14,
+          "transpose": 0,
+          "flats": false,
+          "metadata": {
+            "title": "Joy To The World",
+            "author": "Open Skies Praise",
+            "key": "Key of [C], modulates to [D]",
+            "copyrightYear": 2017,
+            "copyrightNote": "Original words: Isaac Watts. Original music: George Frederick Handel; adapt. & arr. by Lowell Mason. Public Domain."
+          },
+          //"decorationsPath": "../../../../decorations/",
+          "decorations": ["openskiesheader", "openskiesfooter"],
+          "markup": "[instruct]Intro:   [C]\n\n\n[instruct]Verse 1:\n[C  ]Joy to the world, [F  ]the [C/G  ]Lord [G  ]is [C  ]come\n[C/E  ]Let [F  ]earth re[G  ]ceive her [C  ]King\nLet [F  ]every [C/E  ]heart pre[F  ]pare Him [C/E  ]room\nAnd [C  ]heaven and nature sing, and [G  ]heaven and nature sing\nAnd [Am  ]heaven [G/B  ]and [C  ]hea[F  ]ven and [C/G  ]na[G  ]ture s[(Intro)]ing\n\n\n[instruct]Verse 2:\n[C  ]Joy to the earth, [F  ]the [C/G  ]Sav[G  ]ior [C  ]reigns\n[C/E  ]Let [F  ]men their [G  ]songs em[C  ]ploy\nWhile [F  ]fields and [C/E  ]floods, rocks, [F  ]hills and [C/E  ]plains\nRe[C  ]peat the sounding joy, re[G  ]peat the sounding joy\nRe[Am  ]peat, [G/B  ]re[C   F  ]peat the [C/G  ]sound[G  ]ing joy\n[pagebreak]\n[instruct]Key change:   [C]               [G]   [A]   [Bm]   [A/C#]   [G]   [A]   [Bm]   [A/C#]\n\n\n[instruct]Verse 3:\n[D  ]He rules the world [G  ]with [D/A  ]truth [A  ]and [D  ]grace\n[D/F#  ]And [G  ]makes the [A  ]nations [D  ]prove\nThe [G  ]glories [D/F#  ]of His [G  ]righteous[D/F#  ]ness\nAnd [D  ]wonders of His love, and [A  ]wonders of His love\nAnd [Bm  ]won[A/C#  ]ders, [D   G  ]wonders [D/A  ]of [A  ]His [D  ]love\n\n\n[instruct]Ending:\nAnd [D  ]wonders of His love, and [A  ]wonders of His love\nAnd [Bm  ]won[A/C#  ]ders, [D   G  ]wonders [D/A  ]of [A  ]His [D  ]love"
+        }
+      };
+      // set up the correct paths
+      PDFJS.workerSrc = 'js/pdf.worker.min.js';
+    </script>
     <!-- Our code bundle -->
     <script src="js/viewer.min.js"></script>
 

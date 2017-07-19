@@ -1,4 +1,5 @@
 // this script assumes jQuery has already been loaded
+// and that chordscribeOptions is a global variable, and chordscribeOptions.chordSheet is the chord sheet data
 var ko = require('knockout');
 var FileSaver = require('file-saver');
 
@@ -16,7 +17,7 @@ function settingChanged() {
   rebuildTimeout = window.setTimeout(doBuild, 1000);
 }
 // we use a web worker to do the actual build so the UI isn't unresponsive
-var webWorker = new Worker('js/worker.min.js');
+var webWorker = new Worker(chordscribeOptions.workerSrc || 'js/worker.min.js');
 webWorker.onmessage = function(e) {
   if (e.data.success) {
     if (e.data.action == 'load') {
@@ -56,7 +57,7 @@ function loadResources() {
   viewModel.viewerMessage('Loading resources...');
   var message = {
     'action': 'load',
-    'data': chordSheet
+    'data': chordscribeOptions.chordSheet
   };
   webWorker.postMessage(message);
 }
@@ -67,7 +68,6 @@ function renderPDF(blob) {
   var fileReader = new FileReader();
   fileReader.onload = function() {
     arrayBuffer = this.result;
-    PDFJS.workerSrc = 'js/pdf.worker.min.js';
     var docInitParams = {
       data: arrayBuffer
     };
@@ -128,16 +128,16 @@ function renderPages(pdf) {
 // initialize the view model
 function init() {
   // the page title
-  var title = ((chordSheet.metadata && chordSheet.metadata.title) || 'Untitled') + ' - ChordScribe Viewer';
+  var title = ((chordscribeOptions.chordSheet.metadata && chordscribeOptions.chordSheet.metadata.title) || 'Untitled') + ' - ChordScribe Viewer';
   viewModel.pageTitle = title;
   
   // song information
   viewModel.songInformation = [];
-  if (chordSheet.metadata && chordSheet.metadata.title) {
-    viewModel.songInformation.push({'label': 'Title', 'value': chordSheet.metadata.title});
+  if (chordscribeOptions.chordSheet.metadata && chordscribeOptions.chordSheet.metadata.title) {
+    viewModel.songInformation.push({'label': 'Title', 'value': chordscribeOptions.chordSheet.metadata.title});
   }
-  if (chordSheet.metadata && chordSheet.metadata.author) {
-    viewModel.songInformation.push({'label': 'Author', 'value': chordSheet.metadata.author});
+  if (chordscribeOptions.chordSheet.metadata && chordscribeOptions.chordSheet.metadata.author) {
+    viewModel.songInformation.push({'label': 'Author', 'value': chordscribeOptions.chordSheet.metadata.author});
   }
   
   // transpose options
@@ -190,7 +190,7 @@ function init() {
   // download button
   viewModel.download = function() {
     if (currentBlob) {
-      var filename = ((chordSheet.metadata && chordSheet.metadata.title) || 'Untitled') + '.pdf';
+      var filename = ((chordscribeOptions.chordSheet.metadata && chordscribeOptions.chordSheet.metadata.title) || 'Untitled') + '.pdf';
       FileSaver.saveAs(currentBlob, filename);
     }
   };
