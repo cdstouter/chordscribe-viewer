@@ -7,7 +7,7 @@ function chordscribeViewer(chordscribeOptions) {
   var viewModel = {};
 
   var currentBlob = null;
-
+  
   // keep track of changes & rebuild the PDF file when needed
   var rebuildTimeout = null;
   function settingChanged() {
@@ -44,9 +44,9 @@ function chordscribeViewer(chordscribeOptions) {
     var message = {
       'action': 'build',
       'data': {
-        'transpose': viewModel.transpose(),
+        'transpose': viewModel.transpose() + viewModel.originalTranspose,
         'capo': viewModel.capo(),
-        'flats': viewModel.useFlatsStorage()
+        'flats': (viewModel.transpose() == 0 && viewModel.capo() == 0) ? viewModel.originalFlats : viewModel.useFlatsStorage()
       }
     };
     webWorker.postMessage(message);
@@ -188,6 +188,14 @@ function chordscribeViewer(chordscribeOptions) {
         viewModel.useFlatsStorage(value);
       }
     });
+
+    // the original transpose setting is used as an offset and is always applied on top of the user's setting
+    viewModel.originalTranspose = chordscribeOptions.chordSheet.transpose;
+    if (typeof viewModel.originalTranspose === 'undefined') viewModel.originalTranspose = 0;
+    // and the original flats setting is used whenever the user isn't transposing
+    viewModel.originalFlats = chordscribeOptions.chordSheet.flats || false;
+    if (typeof viewModel.originalFlats === 'undefined') viewModel.originalFlats = false;
+
     viewModel.reset = function() {
       if (!viewModel.optionsEnabled()) return;
       viewModel.transpose(0);
