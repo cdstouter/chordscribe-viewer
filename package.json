@@ -9,6 +9,7 @@
   "author": "Caleb Stouter",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "chordscribe-engine": "^0.2.2",
     "es6-promise": "^4.1.1",
     "file-saver": "^1.3.3",
@@ -16,6 +17,9 @@
     "pdfjs-dist": "^1.8.555"
   },
   "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
     "brfs": "^1.4.3",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",

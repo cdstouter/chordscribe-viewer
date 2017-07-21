@@ -7,7 +7,10 @@ module.exports = function(grunt) {
         browserifyOptions: {
           debug: true
         },
-        transform: ['brfs']
+        transform: [
+          'brfs',
+          ['babelify', {presets: ['es2015']}]
+        ]
       },
       bundle: {
         files: [

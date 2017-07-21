@@ -1,5 +1,5 @@
-// this script assumes jQuery has already been loaded
-// and that chordscribeOptions is a global variable, and chordscribeOptions.chordSheet is the chord sheet data
+// this script assumes that chordscribeOptions is a global variable,
+// and chordscribeOptions.chordSheet is the chord sheet data
 function chordscribeViewer(chordscribeOptions) {
   var ko = require('knockout');
   var FileSaver = require('file-saver');
@@ -32,7 +32,7 @@ function chordscribeViewer(chordscribeOptions) {
       viewModel.viewerState('error');
       viewModel.optionsEnabled(false);
       viewModel.viewerMessage('Sorry, there was an error.');
-      console.log(e.data);
+      console.log('Error', e.data);
     }
   };
   function doBuild() {
@@ -62,7 +62,7 @@ function chordscribeViewer(chordscribeOptions) {
     };
     webWorker.postMessage(message);
   }
-
+  
   function renderPDF(blob) {
     currentBlob = blob;
     var arrayBuffer;
@@ -78,7 +78,7 @@ function chordscribeViewer(chordscribeOptions) {
         viewModel.viewerState('error');
         viewModel.optionsEnabled(false);
         viewModel.viewerMessage('Sorry, there was an error.');
-        console.log(error);
+        console.log('Error', error);
       });
     };
     fileReader.readAsArrayBuffer(blob);
@@ -86,13 +86,29 @@ function chordscribeViewer(chordscribeOptions) {
 
   function renderPages(pdf) {
     var promise = Promise.resolve();
-    var documentContainer = $('#pdf-container');
-    documentContainer.empty();
+    var documentContainer = document.getElementById('pdf-container');
+    if (!documentContainer) {
+      console.log('No #pdf-container element found');
+      viewModel.viewerState('error');
+      viewModel.viewerMessage('Sorry, there was an error.');
+      viewModel.optionsEnabled(true);
+      return;
+    }
+    var desiredWidth = documentContainer.offsetWidth;
+    // if offsetWidth is 0, use the parent container's size
+    if (!desiredWidth && documentContainer.parentElement) {
+      var el = documentContainer.parentElement;
+      var style = el.currentStyle || window.getComputedStyle(el);
+      var pad = parseFloat(style.marginLeft) + parseFloat(style.marginRight) + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      desiredWidth = el.offsetWidth - pad;
+    }
+    if (!desiredWidth) desiredWidth = 1024; // default value if all else fails
+    desiredWidth = desiredWidth * (window.devicePixelRatio || 1);
+    documentContainer.innerHTML = '';
     for (var i = 1; i <= pdf.numPages; i++) {
       // Using promise to fetch and render the next page
       promise = promise.then(function (pageNum) {
         return pdf.getPage(pageNum).then(function (page) {
-          var desiredWidth = documentContainer.width() * (window.devicePixelRatio || 1);
           var originalViewport = page.getViewport(1);
           var scale = desiredWidth / originalViewport.width;
           var viewport = page.getViewport(scale);
@@ -100,7 +116,7 @@ function chordscribeViewer(chordscribeOptions) {
           var container = document.createElement('div');
           container.id = 'pageContainer' + pageNum;
           container.className = 'pageContainer card';
-          documentContainer.append(container);
+          documentContainer.appendChild(container);
 
           var canvas = document.createElement('canvas');
           container.id = 'pageCanvas' + pageNum;
@@ -110,7 +126,7 @@ function chordscribeViewer(chordscribeOptions) {
           var context = canvas.getContext('2d');
           canvas.height = viewport.height;
           canvas.width = viewport.width;
-          container.append(canvas);
+          container.appendChild(canvas);
           
           var renderContext = {
             canvasContext: context,
@@ -120,8 +136,14 @@ function chordscribeViewer(chordscribeOptions) {
         });
       }.bind(null, i));
     }
-    promise.then(function() {
+    promise = promise.then(function() {
       viewModel.viewerState('ready');
+      viewModel.optionsEnabled(true);
+    });
+    promise.catch(function(err) {
+      console.log('Error rendering pages', err);
+      viewModel.viewerState('error');
+      viewModel.viewerMessage('Sorry, there was an error.');
       viewModel.optionsEnabled(true);
     });
   }
@@ -226,7 +248,7 @@ function chordscribeViewer(chordscribeOptions) {
 
   // start everything up
   init();
-  ko.applyBindings(viewModel, $('html')[0]);
+  ko.applyBindings(viewModel, document.documentElement);
     
   loadResources();
 }
